@@ -1,7 +1,4 @@
-﻿using System;
-using System.Xml.Linq;
-
-internal class GameLoop
+﻿internal class GameLoop
 {
     public void PlayGame()
     {
@@ -9,28 +6,33 @@ internal class GameLoop
         string filename = @"Level\Level1.txt";
         levelData.Load(filename);
 
-        foreach (var element in levelData.Elements)
-        {
-            element.Draw();
-        }
-
         while (levelData.Player.isPlayerAlive)
         {
+            Console.SetCursorPosition(0, 17);
+            levelData.PrintPlayerStatus();
+
+            levelData.Player.Draw();
             levelData.Player.Update();
 
             foreach (var element in levelData.Elements)
             {
-                if (element is Rat rat)
+                if (element is Wall wall && levelData.Player.CalculateDistance(wall, levelData.Player) <= 5)
                 {
-                    rat.Update();
+                    wall.Draw();
                 }
-                else if (element is Snake snake)
+                else if (element is Enemy enemy)
                 {
-                    snake.Update();
+                    enemy.Update();
+                    
+                    double distanceToPlayer = levelData.Player.CalculateDistance(enemy, levelData.Player);
+                    bool isEnemyVisible = enemy.IsVisible(distanceToPlayer);
+
+                    if (isEnemyVisible)
+                    {
+                        enemy.Draw(); 
+                    }
                 }
             }
-            
-            levelData.PrintPlayerStatus();
 
             if (levelData.Player.HealthPoints <= 0)
             {
@@ -40,42 +42,3 @@ internal class GameLoop
         }
     }
 }
-
-
-//public void PlayGame()
-//{
-//    LevelData levelData = new LevelData();
-//    string filename = @"Level\Level1.txt";
-//    levelData.Load(filename);
-
-//    foreach (var element in levelData.Elements)
-//    {
-//        element.Draw();
-//    }
-
-//    while (levelData.Player.isPlayerAlive)
-//    {
-//        levelData.Player.Update();
-
-//        foreach (var element in levelData.Elements)
-//        {
-//            if (element is Rat rat)
-//            {
-//                rat.Update();
-//            }
-//            else if (element is Snake snake)
-//            {
-//                snake.Update();
-//            }
-//        }
-
-//        levelData.PrintPlayerStatus();
-
-//        if (levelData.Player.HealthPoints <= 0)
-//        {
-//            Console.Clear();
-//            Console.WriteLine("You died! GAME OVER");
-//        }
-//    }
-//}
-//}

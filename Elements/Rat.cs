@@ -1,19 +1,17 @@
 ﻿internal class Rat : Enemy
 {
     private Random numberGenerator = new Random();
+
     public Rat(LevelData levelData, int x, int y) : 
         base(levelData, x, y, 'r', ConsoleColor.Red, 10, "Rat", new Dice (1,6,3), new Dice(1,6,1) ) {}
-    
 
-    public override void Update()
-    {
-        Move();
-        Draw();
-    }
+    public override void Update() => Move();
 
-    protected override void Move()
+    private void Move()
     {
-        base.Move();
+        originalPosition = new Position() { X = Position.X, Y = Position.Y };
+        Console.SetCursorPosition(Position.X, Position.Y);
+        Console.Write(' ');
 
         int direction = numberGenerator.Next(0, 4);
         switch (direction)

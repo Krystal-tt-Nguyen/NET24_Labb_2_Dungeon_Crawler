@@ -1,6 +1,4 @@
-﻿using System.Numerics;
-
-abstract class LevelElement
+﻿abstract class LevelElement
 {
     public Position Position { get; set; }
     protected char Symbol { get; set; }

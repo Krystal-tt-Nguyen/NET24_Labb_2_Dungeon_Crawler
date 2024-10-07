@@ -4,7 +4,6 @@
     public IReadOnlyList<LevelElement> Elements => elements.AsReadOnly();
     public Player Player { get; private set; }
 
-
     public void Load(string filename)
     {
         using StreamReader reader = new StreamReader(filename);
@@ -26,7 +25,7 @@
                         elements.Add(Player);
                         break;
                     case '#':
-                        elements.Add(new Wall(/*this*/ x, y));  // behövs ev. till VisionRange
+                        elements.Add(new Wall(x, y)); 
                         break;
                     case 'r':
                         elements.Add(new Rat(this, x, y));
@@ -42,11 +41,9 @@
 
     public void RemoveEnemy(LevelElement enemy)
     {
-        // "Göm", rita över enemy som dött
         Console.SetCursorPosition(enemy.Position.X, enemy.Position.Y);
         Console.WriteLine(' ');
-
-        // Ta bort enemy från listan Elements, annars ritas de ut igen när enemy.Update() körs i gameloop
+        
         elements.Remove(enemy);
     }
 

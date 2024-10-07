@@ -3,15 +3,13 @@
     public Snake(LevelData levelData, int x, int y) : 
         base (levelData, x, y, 's', ConsoleColor.Green, 25, "Snake", new Dice (3,4,2), new Dice (1,8,5)) {}
 
-    public override void Update()
-    {
-        Move();
-        Draw();
-    }
+    public override void Update() => Move();
 
-    protected override void Move()
+    private void Move()
     {
-        base.Move();
+        originalPosition = new Position() { X = Position.X, Y = Position.Y };
+        Console.SetCursorPosition(Position.X, Position.Y);
+        Console.Write(' ');
 
         foreach (var element in levelData.Elements)
         {
@@ -19,7 +17,7 @@
             {
                 int deltaX = Position.X - player.Position.X;
                 int deltaY = Position.Y - player.Position.Y;
-                double distanceToPlayer = Math.Sqrt(Math.Pow(deltaX, 2) + Math.Pow(deltaY, 2));
+                double distanceToPlayer = Math.Sqrt((deltaX * deltaX) + (deltaY * deltaY));
 
                 if (distanceToPlayer <= 2)
                 {

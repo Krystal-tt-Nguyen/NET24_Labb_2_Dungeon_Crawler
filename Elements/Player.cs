@@ -4,20 +4,20 @@
     public Player (LevelData levelData, int x, int y) : 
         base (levelData, x, y , '@', ConsoleColor.Yellow, 100, "Player", new Dice(2, 6, 2), new Dice(2, 6, 0)) {}
 
-
-    public override void Update()
+    public void Update()
     {
         Move();
         Draw();
     }
 
-    protected override void Move()
+    private void Move()
     {
         Console.CursorVisible = false;
         ConsoleKey keyInfo = Console.ReadKey(true).Key;
 
-        // Kalla på basklassens Move-metod för att behålla dess logik
-        base.Move();
+        originalPosition = new Position() { X = Position.X, Y = Position.Y };
+        Console.SetCursorPosition(Position.X, Position.Y);
+        Console.Write(' ');
 
         switch (keyInfo)
         {
@@ -36,11 +36,9 @@
             case ConsoleKey.Enter:
                 break;
         }
-        Turns++;
 
+        Turns++;
         CheckPositionAvailability();
     }
-
-  
 
 }
