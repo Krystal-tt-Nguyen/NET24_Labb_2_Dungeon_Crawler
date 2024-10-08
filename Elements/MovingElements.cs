@@ -5,28 +5,26 @@
     public Dice AttackDice { get; set; }
     public Dice DefenceDice { get; set; }
 
-    protected readonly LevelData levelData;
     protected Position originalPosition;
-    public bool isPlayerAlive = true;
-   
+
     private List<(string message, ConsoleColor color)> battleMessages = new();
     private List<int> messagesToRemove = new();
-    
-    protected MovingElements (LevelData levelData, int x, int y, char symbol, ConsoleColor color, int healthPoints, string name, Dice attackDice, Dice defenceDice): 
+    private List<MovingElements> enemiesToRemove = new();
+
+    protected MovingElements (int x, int y, char symbol, ConsoleColor color, int healthPoints, string name, Dice attackDice, Dice defenceDice): 
         base (new Position() { X = x, Y = y }, symbol, color) 
     {
         HealthPoints = healthPoints;
         Name = name;
         AttackDice = attackDice;
         DefenceDice = defenceDice;
-        this.levelData = levelData;
     }
 
     protected void CheckPositionAvailability ()
     {
         bool isPositionAvailable = true;
 
-        foreach (var element in levelData.Elements)
+        foreach (var element in LevelData.Elements)
         {
             if (element is Wall && (Position.X == element.Position.X && Position.Y == element.Position.Y))
             {
@@ -66,13 +64,9 @@
     {
         PerformAttack(attacker, defender);
 
-        if (defender is Player && defender.HealthPoints <= 0)
+        if (defender is Enemy enemy && defender.HealthPoints <= 0)
         {
-            isPlayerAlive = false;
-        }
-        else if (defender is Enemy enemy && defender.HealthPoints <= 0)
-        {
-            levelData.RemoveEnemy(enemy);
+            RemoveEnemy(enemy);
         }
         else
         {
@@ -95,6 +89,13 @@
         }
 
         battleMessages.Add(BattleMessage(attacker, defender, attackPoints, defencePoints, damage));
+    }
+
+    public void RemoveEnemy(LevelElement enemy)
+    {
+        Console.SetCursorPosition(enemy.Position.X, enemy.Position.Y);
+        Console.WriteLine(' ');
+        LevelData.Elements.Remove(enemy);
     }
 
     private (string, ConsoleColor) BattleMessage(MovingElements attacker, MovingElements defender, int attackPoints, int defencePoints, int damage)
@@ -141,21 +142,14 @@
 
     private void ClearMessage()
     {
-        for (int i = 0; i < messagesToRemove.Count; i++)
+        int amountMessages = messagesToRemove.Count;
+        for (int i = 0; i < amountMessages; i++)
         {
-            Console.SetCursorPosition(0, messagesToRemove[messagesToRemove.Count - 1 - i]);
+            Console.SetCursorPosition(0, messagesToRemove[amountMessages - 1 - i]);
             Console.Write(" ".PadRight(Console.BufferWidth));
         }
-        Console.SetCursorPosition(0, 20);
-    }
 
-    public double CalculateDistance(LevelElement element, Player player)
-    {
-        int deltaX = element.Position.X - player.Position.X;
-        int deltaY = element.Position.Y - player.Position.Y;
-        double distanceToPlayer = Math.Sqrt( (deltaX * deltaX) + (deltaY * deltaY));
-       
-        return distanceToPlayer;
+        Console.SetCursorPosition(0, 20);
     }
 
 }

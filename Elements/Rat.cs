@@ -2,8 +2,8 @@
 {
     private Random numberGenerator = new Random();
 
-    public Rat(LevelData levelData, int x, int y) : 
-        base(levelData, x, y, 'r', ConsoleColor.Red, 10, "Rat", new Dice (1,6,3), new Dice(1,6,1) ) {}
+    public Rat(int x, int y) : 
+        base(x, y, 'r', ConsoleColor.Red, 10, "Rat", new Dice (1,6,3), new Dice(1,6,1) ) {}
 
     public override void Update() => Move();
 

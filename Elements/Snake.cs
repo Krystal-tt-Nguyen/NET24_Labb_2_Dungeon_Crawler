@@ -1,7 +1,7 @@
 ﻿internal class Snake : Enemy
 {
-    public Snake(LevelData levelData, int x, int y) : 
-        base (levelData, x, y, 's', ConsoleColor.Green, 25, "Snake", new Dice (3,4,2), new Dice (1,8,5)) {}
+    public Snake(int x, int y) : 
+        base ( x, y, 's', ConsoleColor.Green, 25, "Snake", new Dice (3,4,2), new Dice (1,8,5)) {}
 
     public override void Update() => Move();
 
@@ -11,13 +11,11 @@
         Console.SetCursorPosition(Position.X, Position.Y);
         Console.Write(' ');
 
-        foreach (var element in levelData.Elements)
+        foreach (var element in LevelData.Elements)
         {
             if (element is Player player)
             {
-                int deltaX = Position.X - player.Position.X;
-                int deltaY = Position.Y - player.Position.Y;
-                double distanceToPlayer = Math.Sqrt((deltaX * deltaX) + (deltaY * deltaY));
+                double distanceToPlayer = player.CalculateDistanceToPlayer(this, player);
 
                 if (distanceToPlayer <= 2)
                 {

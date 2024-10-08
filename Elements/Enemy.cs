@@ -1,13 +1,13 @@
 ﻿abstract class Enemy : MovingElements
 {
-    protected Enemy(LevelData levelData,int x, int y, char symbol, ConsoleColor color, int healthPoints, string name, Dice attackDice, Dice defenceDice): 
-        base (levelData, x, y, symbol, color, healthPoints, name, attackDice, defenceDice) {}
+    protected Enemy(int x, int y, char symbol, ConsoleColor color, int healthPoints, string name, Dice attackDice, Dice defenceDice): 
+        base (x, y, symbol, color, healthPoints, name, attackDice, defenceDice) {}
 
     public abstract void Update();
 
-    public bool IsVisible(double distanceToPlayer)
+    public bool IsInsideVisionRange(double distanceToPlayer, int visionRange)
     {
-        if (distanceToPlayer <= 5)
+        if (distanceToPlayer <= visionRange)
         {
            return true;
         }
