@@ -1,7 +1,8 @@
 ﻿abstract class Enemy : MovingElements
 {
-    protected Enemy(int x, int y, char symbol, ConsoleColor color, int healthPoints, string name, Dice attackDice, Dice defenceDice): 
-        base (x, y, symbol, color, healthPoints, name, attackDice, defenceDice) {}
+    protected Enemy(int x, int y, char symbol, ConsoleColor color, int healthPoints, string name, Dice attackDice, Dice defenceDice) :
+        base(x, y, symbol, color, healthPoints, name, attackDice, defenceDice)
+    { }
 
     public abstract void Update();
 
@@ -9,7 +10,7 @@
     {
         if (distanceToPlayer <= visionRange)
         {
-           return true;
+            return true;
         }
         return false;
     }

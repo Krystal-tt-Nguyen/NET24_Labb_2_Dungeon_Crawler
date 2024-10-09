@@ -25,13 +25,13 @@
                 else if (element is Enemy enemy)
                 {
                     enemy.Update();
-                   
+
                     double distanceToPlayer = levelData.Player.CalculateDistanceToPlayer(enemy, levelData.Player);
                     bool isEnemyInsideVisionRange = enemy.IsInsideVisionRange(distanceToPlayer, visionRange);
 
                     if (isEnemyInsideVisionRange && enemy.HealthPoints >= 0)
                     {
-                        enemy.Draw(); 
+                        enemy.Draw();
                     }
 
                     isPlayerAlive = levelData.Player.IsPlayerAlive(levelData.Player.HealthPoints);

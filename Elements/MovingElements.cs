@@ -8,11 +8,9 @@
     protected Position originalPosition;
 
     private List<(string message, ConsoleColor color)> battleMessages = new();
-    private List<int> messagesToRemove = new();
-    private List<MovingElements> enemiesToRemove = new();
 
-    protected MovingElements (int x, int y, char symbol, ConsoleColor color, int healthPoints, string name, Dice attackDice, Dice defenceDice): 
-        base (new Position() { X = x, Y = y }, symbol, color) 
+    protected MovingElements(int x, int y, char symbol, ConsoleColor color, int healthPoints, string name, Dice attackDice, Dice defenceDice) :
+        base(new Position() { X = x, Y = y }, symbol, color)
     {
         HealthPoints = healthPoints;
         Name = name;
@@ -20,7 +18,7 @@
         DefenceDice = defenceDice;
     }
 
-    protected void CheckPositionAvailability ()
+    protected void CheckPositionAvailability()
     {
         bool isPositionAvailable = true;
 
@@ -60,7 +58,7 @@
         }
     }
 
-    private void Battle (MovingElements attacker, MovingElements defender)
+    private void Battle(MovingElements attacker, MovingElements defender)
     {
         PerformAttack(attacker, defender);
 
@@ -73,7 +71,6 @@
             PerformAttack(defender, attacker);
         }
 
-        ClearMessage();
         PrintMessage();
     }
 
@@ -126,30 +123,20 @@
     private void PrintMessage()
     {
         int i = 0;
+        
         foreach (var message in battleMessages)
         {
             Console.SetCursorPosition(0, 20 + i);
+            Console.Write(new string(' ', Console.WindowWidth));
+            Console.SetCursorPosition(0, 20 + i);
+
             Console.ForegroundColor = message.color;
             Console.WriteLine(message.message);
             Console.ResetColor();
             i++;
-
-            messagesToRemove.Add(Console.CursorTop - 1);
         }
-
+        
         battleMessages.Clear();
-    }
-
-    private void ClearMessage()
-    {
-        int amountMessages = messagesToRemove.Count;
-        for (int i = 0; i < amountMessages; i++)
-        {
-            Console.SetCursorPosition(0, messagesToRemove[amountMessages - 1 - i]);
-            Console.Write(" ".PadRight(Console.BufferWidth));
-        }
-
-        Console.SetCursorPosition(0, 20);
     }
 
 }

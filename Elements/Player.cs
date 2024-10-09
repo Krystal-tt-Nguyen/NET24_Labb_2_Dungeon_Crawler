@@ -1,8 +1,9 @@
 ﻿internal class Player : MovingElements
 {
     public int Turns { get; set; }
-    public Player (int x, int y) : 
-        base (x, y , '@', ConsoleColor.Yellow, 100, "Player", new Dice(2, 6, 2), new Dice(2, 6, 0)) {}
+    public Player(int x, int y) :
+        base(x, y, '@', ConsoleColor.Yellow, 100, "Player", new Dice(2, 6, 2), new Dice(2, 6, 0))
+    { }
 
     public void Update()
     {
