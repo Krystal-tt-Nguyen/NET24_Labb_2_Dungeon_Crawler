@@ -5,11 +5,9 @@
     public Rat(int x, int y) : 
         base(x, y, 'r', ConsoleColor.Red, 10, "Rat", new Dice (1,6,3), new Dice(1,6,1) ) {}
 
-    public override void Update() => Move();
-
-    private void Move()
+    public override void Update()
     {
-        originalPosition = new Position() { X = Position.X, Y = Position.Y };
+        OriginalPosition = new Position() { X = Position.X, Y = Position.Y };
         Console.SetCursorPosition(Position.X, Position.Y);
         Console.Write(' ');
 

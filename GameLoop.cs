@@ -10,7 +10,7 @@
         int visionRange = 5;
         while (isPlayerAlive)
         {
-            Console.SetCursorPosition(0, 19);
+            Console.SetCursorPosition(0, 0);
             Console.WriteLine($"{levelData.Player.Name}: Krystal \t Health: {levelData.Player.HealthPoints} \t Turns: {levelData.Player.Turns}");
 
             levelData.Player.Draw();

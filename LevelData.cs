@@ -8,7 +8,7 @@
     {
         using StreamReader reader = new StreamReader(filename);
         
-        int y = 0;
+        int y = 4;
         while (!reader.EndOfStream)
         {
             string currentLine = reader.ReadLine();

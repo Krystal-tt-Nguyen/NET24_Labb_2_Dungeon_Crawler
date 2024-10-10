@@ -2,10 +2,10 @@
 {
     public int HealthPoints { get; set; }
     public string Name { get; set; }
-    public Dice AttackDice { get; set; }
-    public Dice DefenceDice { get; set; }
+    private Dice AttackDice { get; set; }
+    private Dice DefenceDice { get; set; }
+    protected Position OriginalPosition { get; set; }
 
-    protected Position originalPosition;
 
     private List<(string message, ConsoleColor color)> battleMessages = new();
 
@@ -17,6 +17,7 @@
         AttackDice = attackDice;
         DefenceDice = defenceDice;
     }
+
 
     protected void CheckPositionAvailability()
     {
@@ -39,7 +40,7 @@
 
         if (!isPositionAvailable)
         {
-            Position = originalPosition;
+            Position = OriginalPosition;
         }
     }
 
@@ -88,11 +89,11 @@
         battleMessages.Add(BattleMessage(attacker, defender, attackPoints, defencePoints, damage));
     }
 
-    public void RemoveEnemy(LevelElement enemy)
+    private void RemoveEnemy(MovingElements deadEnemy)
     {
-        Console.SetCursorPosition(enemy.Position.X, enemy.Position.Y);
+        Console.SetCursorPosition(deadEnemy.Position.X, deadEnemy.Position.Y);
         Console.WriteLine(' ');
-        LevelData.Elements.Remove(enemy);
+        LevelData.Elements.Remove(deadEnemy);
     }
 
     private (string, ConsoleColor) BattleMessage(MovingElements attacker, MovingElements defender, int attackPoints, int defencePoints, int damage)
@@ -126,9 +127,9 @@
         
         foreach (var message in battleMessages)
         {
-            Console.SetCursorPosition(0, 20 + i);
+            Console.SetCursorPosition(0, 1 + i);
             Console.Write(new string(' ', Console.WindowWidth));
-            Console.SetCursorPosition(0, 20 + i);
+            Console.SetCursorPosition(0, 1 + i);
 
             Console.ForegroundColor = message.color;
             Console.WriteLine(message.message);
